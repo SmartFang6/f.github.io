@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.smallBox{
+				position: relative;
+				width: 200px;
+				height: 300px;
+			}
+			.smallBox img{
+				width: 200px;
+				height: 300px;
+			}
+			.bigBox img{
+				width: 400px;
+				height: 600px;
+			}
+			.bigBox{
+				overflow: hidden;
+				width: 200px;
+				height: 300px;
+				position: absolute;
+				display: none;
+			}
+			.zoom{
+				display: none;
+				width: 100px;
+				height: 100px;
+				background-color: cornflowerblue;
+				opacity: 0.4;
+				position: absolute;
+				left: 10px;
+				top: 10px;
+				cursor: move;
+			}
+		</style>
+	</head>
+	<body>
+		<h3>放大镜</h3>
+		<hr />
+		<div class="smallBox">
+			<img src="img/smallbox.jpg"/>
+			<div class="zoom"></div>
+		</div>
+		<div class="bigBox">
+			<img src="img/bigimg.jpg"/>
+		</div>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+		    $(function(){
+		        $(".smallBox").mouseenter(function(){
+		        	var left = $(".smallBox").offset().left;
+		        	var top = $(".smallBox").offset().top;
+		        	$(".bigBox").show().offset({  //大图片显示并改变位置
+		        		left: left+200 + 10,
+		        		top: top
+		        	});
+		        	$(".zoom").show()  //放大镜区域显示
+		        	$(this).mousemove(function(e){
+		        		var mleft = e.pageX - left;  // 鼠标x轴位置
+		        		var mtop = e.pageY -  top;		// 鼠标Y轴位置
+		        		var zleft = Math.min(Math.max(mleft - 50,0),100);
+		        		var ztop = Math.min(Math.max(mtop - 50,0),200);
+		        		$(".zoom").css({
+		        			"left": zleft +"px",
+		        			"top" : ztop +"px"
+		        		})
+		        		$(".bigBox").scrollLeft(zleft * 2).scrollTop(ztop * 2)
+		        	})
+		        }).mouseleave(function(){
+		        	$(".bigBox").hide()
+		        	$(".zoom").hide() //放大镜区域隐藏
+		        })
+		    })
+		</script>
+	</body>
+</html>
